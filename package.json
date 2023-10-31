@@ -10,8 +10,15 @@
     "type": "git",
     "url": "https://github.com/faultyserver/eslint-parallel.git"
   },
+  "files": [
+    "lib",
+    "patches",
+    "LICENSE",
+    "package.json",
+    "README.md"
+  ],
   "bin": {
-    "eslint-parallel": "./lib/cli.mjs"
+    "eslint-parallel": "./lib/cli.js"
   },
   "dependencies": {
     "chalk": "^4.1.0",
