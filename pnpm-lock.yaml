@@ -6,7 +6,7 @@ settings:
 
 patchedDependencies:
   eslint@8.52.0:
-    hash: s5secy7mq7v3trvx63xgqxjwby
+    hash: ccrbnwjvo2lgiq5tmtj67zewi4
     path: patches/eslint@8.52.0.patch
 
 dependencies:
@@ -15,7 +15,7 @@ dependencies:
     version: 4.1.2
   eslint:
     specifier: '>=8'
-    version: 8.52.0(patch_hash=s5secy7mq7v3trvx63xgqxjwby)
+    version: 8.52.0(patch_hash=ccrbnwjvo2lgiq5tmtj67zewi4)
   strip-ansi:
     specifier: ^7.0.0
     version: 7.1.0
@@ -41,7 +41,7 @@ packages:
     peerDependencies:
       eslint: ^6.0.0 || ^7.0.0 || >=8.0.0
     dependencies:
-      eslint: 8.52.0(patch_hash=s5secy7mq7v3trvx63xgqxjwby)
+      eslint: 8.52.0(patch_hash=ccrbnwjvo2lgiq5tmtj67zewi4)
       eslint-visitor-keys: 3.4.3
     dev: false
 
@@ -265,7 +265,7 @@ packages:
     engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
     dev: false
 
-  /eslint@8.52.0(patch_hash=s5secy7mq7v3trvx63xgqxjwby):
+  /eslint@8.52.0(patch_hash=ccrbnwjvo2lgiq5tmtj67zewi4):
     resolution: {integrity: sha512-zh/JHnaixqHZsolRB/w9/02akBk9EPrOs9JwcTP2ek7yL5bVvXuRariiaAjjoJ5DvuwQ1WAE/HsMz+w17YgBCg==}
     engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
     hasBin: true

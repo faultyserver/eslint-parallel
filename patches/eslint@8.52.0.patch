@@ -9,16 +9,17 @@ index 5dff8d09ccdf7757901448f9e1f7d9c00f621641..2cbea2d4b7c3cef427d29c742f981bbe
 -module.exports = { FileEnumerator };
 +module.exports = { FileEnumerator, CascadingConfigArrayFactory };
 diff --git a/package.json b/package.json
-index 45a42d1bf2c5baeecc5b7b57f69af5609bdaae53..8f3685415b4405b7fb112288cdc0d062b9bf63b0 100644
+index 45a42d1bf2c5baeecc5b7b57f69af5609bdaae53..872e3a995285c3e4689c9f39dc46df9bc9d4e1fc 100644
 --- a/package.json
 +++ b/package.json
-@@ -10,7 +10,9 @@
+@@ -10,7 +10,10 @@
    "exports": {
      "./package.json": "./package.json",
      ".": "./lib/api.js",
 -    "./use-at-your-own-risk": "./lib/unsupported-api.js"
 +    "./use-at-your-own-risk": "./lib/unsupported-api.js",
 +    "./lib/options": "./lib/options.js",
++    "./lib/cli-engine/cli-engine": "./lib/cli-engine/cli-engine.js",
 +    "./lib/cli-engine/file-enumerator": "./lib/cli-engine/file-enumerator.js"
    },
    "scripts": {
