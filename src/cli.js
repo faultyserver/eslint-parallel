@@ -1,16 +1,8 @@
 #!/usr/bin/env node
-require('@babel/register');
+import options from "eslint/lib/options";
 
-/**
-* NPM dependencies
-**/
-import options from 'eslint/lib/options';
-
-/**
-* Local dependencies
-**/
-import Linter from './linter';
-import { formatTotal } from './formatter';
+import Linter from "./linter";
+import { formatTotal } from "./formatter";
 
 function translateOptions(cliOptions) {
   return {
@@ -31,7 +23,7 @@ function translateOptions(cliOptions) {
     cacheFile: cliOptions.cacheFile,
     cacheLocation: cliOptions.cacheLocation,
     fix: cliOptions.fix,
-    allowInlineConfig: cliOptions.inlineConfig
+    allowInlineConfig: cliOptions.inlineConfig,
   };
 }
 

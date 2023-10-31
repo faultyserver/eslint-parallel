@@ -1,22 +1,13 @@
-/**
-* Node dependencies
-**/
-import fs from 'fs';
-import path from 'path';
-import os from 'os';
-import { fork } from 'child_process';
+import fs from "fs";
+import path from "path";
+import os from "os";
+import { fork } from "child_process";
 
-/**
-* NPM dependencies
-**/
-import { CLIEngine } from 'eslint';
-import { FileEnumerator } from 'eslint/lib/cli-engine/file-enumerator';
-import { CascadingConfigArrayFactory } from 'eslint/lib/cli-engine/cascading-config-array-factory';
+import { CLIEngine } from "eslint";
+import { FileEnumerator } from "eslint/lib/cli-engine/file-enumerator";
+import { CascadingConfigArrayFactory } from "eslint/lib/cli-engine/cascading-config-array-factory";
 
-/**
-* Local dependencies
-**/
-import { formatResults } from './formatter';
+import { formatResults } from "./formatter";
 
 const cpuCount = os.cpus().length;
 
@@ -28,19 +19,18 @@ function listFilesToProcess(patterns, options) {
         ...options,
 
         // Disable "No Configuration Found" error.
-        useEslintrc: false
-      })
+        useEslintrc: false,
+      }),
     }).iterateFiles(patterns),
     ({ filePath, ignored }) => ({ filename: filePath, ignored })
   );
 }
 
 function hasEslintCache(options) {
-  const cacheLocation = (
-    options.cacheFile || options.cacheLocation || path.join(
-      options.cwd || process.cwd(), '.eslintcache'
-    )
-  );
+  const cacheLocation =
+    options.cacheFile ||
+    options.cacheLocation ||
+    path.join(options.cwd || process.cwd(), ".eslintcache");
   try {
     fs.accessSync(path.resolve(cacheLocation), fs.F_OK);
     return true;
@@ -51,29 +41,29 @@ function hasEslintCache(options) {
 
 function eslintFork(options, files) {
   return new Promise((resolve, reject) => {
-    const eslintChild = fork(path.resolve(__dirname, 'linter'));
-    eslintChild.on('message', (report) => {
+    const eslintChild = fork(path.resolve(__dirname, "linter"));
+    eslintChild.on("message", (report) => {
       if (report.errorCount || report.warningCount) {
         console.log(formatResults(report.results));
       }
       resolve(report);
     });
-    eslintChild.on('exit', (code) => {
+    eslintChild.on("exit", (code) => {
       if (code !== 0) {
-        reject('Linting failed');
+        reject("Linting failed");
       }
     });
-    eslintChild.send({options, files});
+    eslintChild.send({ options, files });
   });
 }
 
 export default class Linter {
-  constructor (options) {
+  constructor(options) {
     this._options = options;
     this._engine = new CLIEngine(options);
   }
 
-  run (files) {
+  run(files) {
     return new Promise((resolve) => {
       const report = this._engine.executeOnFiles(files);
       if (this._options.fix) {
@@ -89,9 +79,9 @@ export default class Linter {
 
   execute(patterns) {
     return new Promise((resolve, reject) => {
-      const files = listFilesToProcess(
-        patterns, this._options
-      ).map(f => f.filename);
+      const files = listFilesToProcess(patterns, this._options).map(
+        (f) => f.filename
+      );
 
       const hasCache = hasEslintCache(this._options);
 
@@ -99,15 +89,13 @@ export default class Linter {
         // too many items, need to spawn process (if machine has multi-core)
         const totalCount = {
           errorCount: 0,
-          warningCount: 0
+          warningCount: 0,
         };
         const chunckedPromises = [];
         const chunkSize = Math.ceil(files.length / cpuCount);
         for (let i = 0; i < files.length; i += chunkSize) {
           const chunkedPaths = files.slice(i, i + chunkSize);
-          const chunckedPromise = eslintFork(
-            this._options, chunkedPaths
-          );
+          const chunckedPromise = eslintFork(this._options, chunkedPaths);
           chunckedPromise.then((report) => {
             totalCount.errorCount += report.errorCount;
             totalCount.warningCount += report.warningCount;
@@ -129,14 +117,17 @@ export default class Linter {
   }
 }
 
-process.on('message', ({options, files}) => {
+process.on("message", ({ options, files }) => {
   // make sure to ignore message to other nested processes
   if (files) {
-    new Linter(options).run(files).then((report) => {
-      process.send(report);
-    }, (err) => {
-      console.log(err);
-      process.exit(1);
-    });
+    new Linter(options).run(files).then(
+      (report) => {
+        process.send(report);
+      },
+      (err) => {
+        console.log(err);
+        process.exit(1);
+      }
+    );
   }
 });
